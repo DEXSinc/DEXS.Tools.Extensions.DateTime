@@ -7,8 +7,8 @@ namespace DEXS.Tools.Extensions.DateTime
 {
     public static class DateExtensions
     {
-        public static string DefaultDirection = "-";
-        public static string[] ValidDirections = {"-", "+"};
+        public static string DefaultDirection = "+";
+        private static string[] ValidDirections = {"-", "+"};
 
         public static string GetDirection(string directionStr)
         {

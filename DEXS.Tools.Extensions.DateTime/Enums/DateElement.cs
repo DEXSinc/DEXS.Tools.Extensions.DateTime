@@ -22,14 +22,14 @@ namespace DEXS.Tools.Extensions.DateTime.Enums
             EnumValues = new List<DateElement>
             {
                 Unknown,
-                MilliSeconds,
-                Seconds,
-                Minutes,
-                Hours,
-                Days,
-                Weeks,
-                Months,
-                Years
+                MilliSeconds,   // f, F
+                Seconds,        // s, S
+                Minutes,        // m
+                Hours,          // h, H
+                Days,           // d, D
+                Weeks,          // w, W
+                Months,         // M
+                Years           // y, Y
             };
         }
 
@@ -45,7 +45,7 @@ namespace DEXS.Tools.Extensions.DateTime.Enums
 
         public static DateElement Parse(string elementStr)
         {
-            return EnumValues.FirstOrDefault(t => t.Values.Contains(elementStr, StringComparer.OrdinalIgnoreCase)) ?? Unknown;
+            return EnumValues.FirstOrDefault(t => t.Values.Contains(elementStr, StringComparer.CurrentCulture)) ?? Unknown;
         }
 
     }
