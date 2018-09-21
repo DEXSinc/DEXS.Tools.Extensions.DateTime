@@ -8,10 +8,10 @@
     <Version>0.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIconUrl>http://aa164a04d71748b69e19-156c2587edac284f25142c13aa308713.r11.cf1.rackcdn.com/Favicon2.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/DEXSinc/dexs-datetime-extensions/</RepositoryUrl>
+    <RepositoryUrl>https://github.com/DEXSinc/DEXS.Tools.Extensions.DateTime</RepositoryUrl>
     <PackageLicenseUrl>https://www.dexs.ca/licence</PackageLicenseUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageProjectUrl>https://github.com/DEXSinc/dexs-datetime-extensions/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/DEXSinc/DEXS.Tools.Extensions.DateTime</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
