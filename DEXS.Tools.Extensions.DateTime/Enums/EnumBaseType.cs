@@ -21,7 +21,7 @@ namespace DEXS.Tools.Extensions.DateTime.Enums
 
         protected static IEnumerable<T> GetBaseValues()
         {
-            return EnumValues.AsReadOnly();
+            return EnumValues.AsEnumerable();
         }
 
         protected static T GetBaseByKey(int key)
