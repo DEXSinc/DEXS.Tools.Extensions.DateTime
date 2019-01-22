@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace DEXS.Tools.Extensions.DateTime.Tests
@@ -50,8 +51,15 @@ namespace DEXS.Tools.Extensions.DateTime.Tests
             new object[] { new System.DateTime(2018, 1, 1, 0, 0, 0), new System.DateTime(2017, 12, 31, 23, 0, 0), "-1h" },
             new object[] { new System.DateTime(2018, 1, 1, 0, 0, 0), new System.DateTime(2017, 12, 31, 23, 59, 0), "-1m" },
             new object[] { new System.DateTime(2018, 1, 1, 0, 0, 0), new System.DateTime(2017, 12, 31, 23, 59, 59), "-1s" },
-            new object[] { new System.DateTime(2018, 1, 1, 0, 0, 0, 0), new System.DateTime(2017, 12, 31, 23, 59, 59, 999), "-1f" },
-            new object[] { new System.DateTime(2018, 1, 1, 0, 0, 0, 0), new System.DateTime(2018, 1, 1, 0, 0, 0, 0), "1j" }
+            new object[] { new System.DateTime(2018, 1, 1, 0, 0, 0, 0), new System.DateTime(2017, 12, 31, 23, 59, 59, 999), "-1f" }
+        };
+
+        public static object[][] BadTestData =
+        {
+            new object[] { "" },
+            new object[] { "M" },
+            new object[] { "1" },
+            new object[] { "1j" }, 
         };
 
         [Fact]
@@ -61,6 +69,27 @@ namespace DEXS.Tools.Extensions.DateTime.Tests
             var expected = new System.DateTime(2018, 2, 1);
             var result = date.ApplyOffset("M", 1);
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void FailsWithArgumentNullExceptionWhenOffsetIsNull()
+        {
+            var date = new System.DateTime(2018, 1, 1);
+            string offset = null;
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                date.Calculate(offset);
+            });
+        }
+
+        [Theory, MemberData(nameof(BadTestData))]
+        public void FailsIfOffsetIsInvalid(string offset)
+        {
+            var date = new System.DateTime(2018, 1, 1);
+            Assert.Throws<ArgumentException>(() =>
+            {
+                date.Calculate(offset);
+            });
         }
 
         [Theory, MemberData(nameof(TestData))]

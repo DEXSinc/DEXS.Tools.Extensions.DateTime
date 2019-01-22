@@ -8,20 +8,38 @@ namespace DEXS.Tools.Extensions.DateTime
     public static class DateExtensions
     {
         public static string DefaultDirection = "+";
-        private static string[] ValidDirections = {"-", "+"};
+        private static readonly string[] ValidDirections = {"-", "+"};
 
         public static string GetDirection(string directionStr)
         {
             return ValidDirections.Contains(directionStr.Trim()) ? directionStr : DefaultDirection;
         }
 
-        public static System.DateTime Calculate(this System.DateTime date, string lookbackstr)
+        public static bool IsValidLookback(this string value)
         {
-            var result = date;
+            try
+            {
+                return value.ParseLookback().Count > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static MatchCollection ParseLookback(this string lookback)
+        {
             // [direction]<amount><type>[[direction]<amount><type>...]
             const string regexMatchStr = "([+-]?)([0-9]+)([yYmMdDwWhHsSfF]{1})";
-            var matches = Regex.Matches(lookbackstr, regexMatchStr);
+            var matches = Regex.Matches(lookback, regexMatchStr);
+            return matches;
+        }
 
+        public static System.DateTime Calculate(this System.DateTime date, string lookback)
+        {
+            var result = date;
+            var matches = lookback.ParseLookback();
+            if (matches.Count <= 0) throw new ArgumentException("Lookback string is not valid", nameof(lookback));
             foreach (Match match in matches)
             {
                 var elementDirection = GetDirection(match.Groups[1].Value.Trim());
