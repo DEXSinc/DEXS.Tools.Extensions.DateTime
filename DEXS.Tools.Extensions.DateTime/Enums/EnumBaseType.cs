@@ -15,8 +15,8 @@ namespace DEXS.Tools.Extensions.DateTime.Enums
             EnumValues.Add((T)this);
         }
 
-        public int Key { get; private set; }
-        public string Value { get; private set; }
+        public int Key { get; }
+        public string Value { get; }
         public string Description { get; private set; }
 
         protected static IEnumerable<T> GetBaseValues()
@@ -51,7 +51,7 @@ namespace DEXS.Tools.Extensions.DateTime.Enums
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
             {
                 return false;
             }

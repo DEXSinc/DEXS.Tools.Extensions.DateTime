@@ -1,3 +1,5 @@
+using System;
+
 namespace DEXS.Tools.Extensions.DateTime.Elements
 {
     public class HourElement : IDateElement

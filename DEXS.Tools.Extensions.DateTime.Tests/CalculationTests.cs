@@ -1,5 +1,6 @@
 using System;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace DEXS.Tools.Extensions.DateTime.Tests
 {
@@ -12,8 +13,11 @@ namespace DEXS.Tools.Extensions.DateTime.Tests
 
     public class CalculationTests
     {
-        public CalculationTests()
+        private readonly ITestOutputHelper _testOutputHelper;
+
+        public CalculationTests(ITestOutputHelper testOutputHelper)
         {
+            _testOutputHelper = testOutputHelper;
             // Set the Default Direction to forward
             DateExtensions.DefaultDirection = "+";
         }
@@ -62,6 +66,15 @@ namespace DEXS.Tools.Extensions.DateTime.Tests
             new object[] { "1j" }, 
         };
 
+        public static object[][] LookbackStringTests =
+        {
+            new object[] { "1y", "1 Year" },
+            new object[] { "2y", "2 Years" },
+            new object[] { "-1y", "-1 Year" },
+            new object[] { "0y", "0 Years" },
+            new object[] { "1M2m3s", "1 Month 2 Minutes 3 Seconds" },
+        };
+
         [Fact]
         public void CanApplyOffset()
         {
@@ -75,10 +88,9 @@ namespace DEXS.Tools.Extensions.DateTime.Tests
         public void FailsWithArgumentNullExceptionWhenOffsetIsNull()
         {
             var date = new System.DateTime(2018, 1, 1);
-            string offset = null;
             Assert.Throws<ArgumentNullException>(() =>
             {
-                date.Calculate(offset);
+                date.Calculate(null);
             });
         }
 
@@ -97,6 +109,14 @@ namespace DEXS.Tools.Extensions.DateTime.Tests
         {
             var result = date.Calculate(offset);
             Assert.Equal(expected, result);
+        }
+
+        [Theory, MemberData(nameof(LookbackStringTests))]
+        public void CanGetHumanReadable(string lookback, string expectation)
+        {
+            var result = lookback.ToLookbackDictionary().ToHumanReadable();
+            Assert.Equal(expectation, result);
+            _testOutputHelper.WriteLine(result);
         }
     }
 }
